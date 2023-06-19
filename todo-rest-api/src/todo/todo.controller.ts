@@ -15,12 +15,21 @@ import { UpdateTodoDto } from './dto/update-todo.dto';
 export class TodoController {
   constructor(private readonly todoService: TodoService) {}
 
+  /**
+   * Creates a Todo instance in the db
+   * @param createTodoDto Create Todo Data Transfare Object
+   * @returns The Mongo generated Id
+   */
   @Post()
   async createTodo(@Body() createTodoDto: CreateTodoDto) {
     const generatedId = await this.todoService.createTodo(createTodoDto);
     return { id: generatedId };
   }
 
+  /**
+   * Gets all Todos from the db
+   * @returns A array of all Todos
+   */
   @Get()
   async getAllTodos() {
     const allTodos = await this.todoService.getAllTodos();
