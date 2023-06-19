@@ -53,6 +53,7 @@ export class NotificationsController {
 
     const success = await this.notificationsService.deleteNotification(id);
 
-    if (!success) throw new NotFoundException(`Notification id ${id} not found`);
+    if (!success)
+      throw new NotFoundException(`Notification id ${id} not found`);
   }
 }
