@@ -5,6 +5,7 @@ import { Model } from 'mongoose';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
 import { Todo } from './entities/todo.entity';
+import { NotFoundError } from 'rxjs';
 
 @Injectable()
 export class TodoService {
@@ -47,9 +48,28 @@ export class TodoService {
         } as Todo),
     );
   }
+  /**
+   * Gets a Todo from the db by id
+   * @param id Id of the Todo to get
+   * @returns The Todo
+   */
+  async getTodo(id: string): Promise<Todo> {
+    // Find todo
+    const todoModel = await this.todoModel.findById(id);
 
-  findOne(id: number) {
-    return `This action returns a #${id} todo`;
+    if (!todoModel) {
+      throw new Error('Todo not found');
+    }
+
+    const todo: Todo = {
+      id: todoModel.id,
+      title: todoModel.title,
+      description: todoModel.description,
+      isCompleate: todoModel.isCompleate,
+      deadline: todoModel.deadline,
+    };
+
+    return todo;
   }
 
   update(id: number, updateTodoDto: UpdateTodoDto) {

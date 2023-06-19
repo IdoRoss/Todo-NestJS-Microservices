@@ -36,9 +36,14 @@ export class TodoController {
     return allTodos;
   }
 
+  /**
+   * Gets a Todo from the db by id
+   * @param id Id of the Todo to get
+   * @returns The Todo
+   */
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.todoService.findOne(+id);
+  getTodo(@Param('id') id: string) {
+    return this.todoService.getTodo(id);
   }
 
   @Patch(':id')
