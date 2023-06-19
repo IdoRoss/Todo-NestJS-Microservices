@@ -4,17 +4,18 @@ import { Model } from 'mongoose';
 
 import { CreateNotificationDto } from './dto/create-notification.dto';
 import { UpdateNotificationDto } from './dto/update-notification.dto';
+
 import { Notification } from './entities/notification.entity';
 
 @Injectable()
 export class NotificationsService {
   constructor(
     @InjectModel('Notifications')
-    private readonly todoModel: Model<Notification>,
+    private readonly notificationModel: Model<Notification>,
   ) {}
 
   async create(createNotificationDto: CreateNotificationDto): Promise<string> {
-    const newNotification = new this.todoModel(createNotificationDto);
+    const newNotification = new this.notificationModel(createNotificationDto);
 
     const result = await newNotification.save();
 
@@ -26,8 +27,18 @@ export class NotificationsService {
   async updateNotification(
     id: string,
     updateNotificationDto: UpdateNotificationDto,
-  ) {
-    return `This action updates a #${id} notification`;
+  ): Promise<boolean> {
+    // Get the notification
+    const notification = await this.notificationModel.findById(id);
+
+    if (!notification) {
+      return false;
+    }
+    notification.notificationSendDate =
+      updateNotificationDto.notificationSendDate;
+
+    await notification.save();
+    return true;
   }
 
   async deleteNotification(id: string) {

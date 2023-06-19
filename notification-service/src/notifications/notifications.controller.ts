@@ -6,6 +6,9 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
+  BadRequestException,
+  NotFoundException,
 } from '@nestjs/common';
 import { NotificationsService } from './notifications.service';
 import { CreateNotificationDto } from './dto/create-notification.dto';
@@ -25,10 +28,13 @@ export class NotificationsController {
     @Param('id') id: string,
     @Body() updateNotificationDto: UpdateNotificationDto,
   ) {
-    return await this.notificationsService.updateNotification(
+    const success = await this.notificationsService.updateNotification(
       id,
       updateNotificationDto,
     );
+    if (!success) {
+      throw new NotFoundException();
+    }
   }
 
   @Delete(':id')
