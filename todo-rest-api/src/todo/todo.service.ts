@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
@@ -55,21 +59,27 @@ export class TodoService {
    */
   async getTodo(id: string): Promise<Todo> {
     // Find todo
-    const todoModel = await this.todoModel.findById(id);
+    console.log('Fetching Todo with Id: ', id);
+    try {
+      const todoModel = await this.todoModel.findById(id);
 
-    if (!todoModel) {
-      throw new NotFoundException('Todo not found');
+      if (!todoModel) {
+        throw new NotFoundException();
+      }
+
+      const todo: Todo = {
+        id: todoModel.id,
+        title: todoModel.title,
+        description: todoModel.description,
+        isCompleate: todoModel.isCompleate,
+        deadline: todoModel.deadline,
+      };
+
+      return todo;
+    } catch (error) {
+      console.log(error);
+      throw new NotFoundException(`Todo with Id: ${id} not found`);
     }
-
-    const todo: Todo = {
-      id: todoModel.id,
-      title: todoModel.title,
-      description: todoModel.description,
-      isCompleate: todoModel.isCompleate,
-      deadline: todoModel.deadline,
-    };
-
-    return todo;
   }
 
   update(id: number, updateTodoDto: UpdateTodoDto) {
