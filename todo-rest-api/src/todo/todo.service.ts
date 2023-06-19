@@ -10,10 +10,11 @@ import { Todo } from './entities/todo.entity';
 export class TodoService {
   constructor(@InjectModel('Todo') private readonly todoModel: Model<Todo>) {}
 
-  async create(createTodoDto: CreateTodoDto) {
+  async createTodo(createTodoDto: CreateTodoDto): Promise<string> {
     const newTodo = new this.todoModel(createTodoDto);
-    await newTodo.save();
-    return;
+    const result = await newTodo.save();
+    console.log('Created Todo: ', result);
+    return result.id;
   }
 
   findAll() {

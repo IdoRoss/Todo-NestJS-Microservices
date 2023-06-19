@@ -16,8 +16,9 @@ export class TodoController {
   constructor(private readonly todoService: TodoService) {}
 
   @Post()
-  create(@Body() createTodoDto: CreateTodoDto) {
-    return this.todoService.create(createTodoDto);
+  async createTodo(@Body() createTodoDto: CreateTodoDto) {
+    const generatedId = await this.todoService.createTodo(createTodoDto);
+    return { id: generatedId };
   }
 
   @Get()
