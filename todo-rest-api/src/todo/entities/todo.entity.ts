@@ -5,6 +5,7 @@ export const TodoSchema = new mongoose.Schema({
   description: { type: String },
   deadline: { type: Date },
   isCompleate: { type: String, required: true },
+  notificationId: { type: String },
 });
 
 export interface Todo extends mongoose.Document {
@@ -13,4 +14,5 @@ export interface Todo extends mongoose.Document {
   description: string;
   deadline: Date;
   isCompleate: boolean;
+  notificationId: string;
 }

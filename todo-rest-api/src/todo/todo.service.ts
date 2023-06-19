@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
@@ -10,10 +6,18 @@ import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
 import { Todo } from './entities/todo.entity';
 import { GetTodoDto } from './dto/get-todo.dto';
+import { NotificationsService } from 'src/notifications/notifications.service';
+import { CreateNotificationDto } from 'src/notifications/dto/create-notification.dto';
+import { UpdateNotificationDto } from 'src/notifications/dto/update-notification.dto';
+import { HttpStatusCode } from 'axios';
 
 @Injectable()
 export class TodoService {
-  constructor(@InjectModel('Todo') private readonly todoModel: Model<Todo>) {}
+  private readonly NOTIFICATIONS_HOUR_BEFORE_DEADLINE = 12;
+  constructor(
+    @InjectModel('Todo') private readonly todoModel: Model<Todo>,
+    private readonly notificationsService: NotificationsService,
+  ) {}
 
   /**
    * Creates a Todo instance in the db
@@ -28,6 +32,31 @@ export class TodoService {
     const result = await newTodo.save();
 
     console.log('Created Todo: ', result);
+
+    // Create notification for the new todo
+    // Calculate notification date
+    const notificationDate = result.deadline;
+    notificationDate.setHours(
+      result.deadline.getHours() - this.NOTIFICATIONS_HOUR_BEFORE_DEADLINE,
+    );
+
+    // Create notification dto
+    const notificationDto: CreateNotificationDto = {
+      notificationSendDate: notificationDate,
+      itemId: result.id,
+    };
+    // Make the API call to notification microservice and update existing todo with notificationId
+    console.log('Creating notification: ', notificationDto);
+    this.notificationsService
+      .createNotification(notificationDto)
+      .subscribe((res) => {
+        if (res.status === HttpStatusCode.Created) {
+          newTodo.notificationId = res.data;
+          newTodo.save();
+        }
+      });
+
+    // Return the id of the new todo
     return result.id;
   }
 
@@ -73,6 +102,40 @@ export class TodoService {
 
     if (!todo) {
       return null;
+    }
+
+    // Handle updating notification
+    // If todo wasnt compleated before and is compleated now and it has a notification
+    if (!todo.isCompleate && updateTodoDto.isCompleate && todo.notificationId) {
+      this.notificationsService
+        .deleteNotification(todo.notificationId)
+        .subscribe((res) => {
+          if (res.status != HttpStatusCode.Ok) {
+            console.error('Error deleting notification: ', res);
+          }
+        });
+    } else if (updateTodoDto.deadline && todo.notificationId) {
+      // If deadline was updated and it has a notification
+      // Calculate notification date
+      const notificationDate = updateTodoDto.deadline;
+      notificationDate.setHours(
+        updateTodoDto.deadline.getHours() -
+          this.NOTIFICATIONS_HOUR_BEFORE_DEADLINE,
+      );
+
+      // Update notification dto
+      const notificationDto: UpdateNotificationDto = {
+        notificationSendDate: notificationDate,
+      };
+      // Make the API call to notification microservice to update notificationSendDate
+      console.log('Creating notification: ', notificationDto);
+      this.notificationsService
+        .updateNotification(todo.notificationId, notificationDto)
+        .subscribe((res) => {
+          if (res.status !== HttpStatusCode.Ok) {
+            console.error('Error updating notification: ', res);
+          }
+        });
     }
 
     // Update existing params
