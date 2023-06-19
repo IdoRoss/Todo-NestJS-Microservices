@@ -6,6 +6,9 @@ Feel free to contact me :)
 1. ```cd notification-service```
 2. ```npm run start:dev```
 3. ```cd ../todo-rest-api```
-4. ```npm run start:dev``` <br>
+4. ```npm run start:dev``` 
+5. Need to add .env file to both Microservices (Which I will provide)
 
-You can use attached postman collections
+Now both Microservices are up and running.
+<br>
+You can use attached postman collections to use these apis.
