@@ -9,7 +9,6 @@ import { Model } from 'mongoose';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
 import { Todo } from './entities/todo.entity';
-import { NotFoundError } from 'rxjs';
 import { GetTodoDto } from './dto/get-todo.dto';
 
 @Injectable()
@@ -64,7 +63,10 @@ export class TodoService {
     id: string,
     updateTodoDto: UpdateTodoDto,
   ): Promise<GetTodoDto> {
+    // Get the todo
     const todo = await this.findTodo(id);
+
+    // Update existing params
     if (updateTodoDto.title) {
       todo.title = updateTodoDto.title;
     }
@@ -77,12 +79,27 @@ export class TodoService {
     if (updateTodoDto.deadline) {
       todo.deadline = updateTodoDto.deadline;
     }
-    todo.save();
+
+    await todo.save();
     return this.mapTodoModelToTodoDto(todo);
   }
 
+  /**
+   * Deletes a Todo from the db by id
+   * @param id Id of the Todo to delete
+   */
   async deleteTodo(id: string) {
-    return `This action removes a #${id} todo`;
+    console.log('Deleting Todo with Id: ', id);
+
+    const result = await this.todoModel.deleteOne({ _id: id }).exec();
+
+    // Error handling
+    if (result.deletedCount === 0) {
+      const errorMessage = `Todo with Id: ${id} not found`;
+      console.error(`Deleting Todo, ${errorMessage}`);
+      // Throwing NotFoundError will trigger the global exception handler which will return 404 status code
+      throw new NotFoundException(errorMessage);
+    }
   }
 
   /**
@@ -97,13 +114,14 @@ export class TodoService {
       const todo = await this.todoModel.findById(id);
 
       if (!todo) {
-        throw new NotFoundException();
+        // Throwing NotFoundError will trigger the global exception handler which will return 404 status code
+        throw new NotFoundException(`Todo with Id: ${id} not found`);
       }
 
       return todo;
     } catch (error) {
-      console.log(error);
-      throw new NotFoundException(`Todo with Id: ${id} not found`);
+      console.error('Fetching Todo with Id: ', id, error);
+      throw error;
     }
   }
 
