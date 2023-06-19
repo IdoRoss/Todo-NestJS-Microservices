@@ -1,7 +1,7 @@
 import * as mongoose from 'mongoose';
 
 export const NotificationSchema = new mongoose.Schema({
-  todoId: { type: String, required: true },
+  itemId: { type: String, required: true },
   notificationSendDate: { type: Date, required: true },
 });
 

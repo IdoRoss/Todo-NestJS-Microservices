@@ -15,13 +15,16 @@ import { CreateNotificationDto } from './dto/create-notification.dto';
 import { UpdateNotificationDto } from './dto/update-notification.dto';
 import * as mongoose from 'mongoose';
 
-@Controller('notifications')
+@Controller('api/notifications')
 export class NotificationsController {
   constructor(private readonly notificationsService: NotificationsService) {}
 
   @Post()
   async create(@Body() createNotificationDto: CreateNotificationDto) {
-    return await this.notificationsService.create(createNotificationDto);
+    const generatedId = await this.notificationsService.create(
+      createNotificationDto,
+    );
+    return { id: generatedId };
   }
 
   @Patch(':id')
@@ -38,7 +41,7 @@ export class NotificationsController {
       updateNotificationDto,
     );
     if (!success) {
-      throw new NotFoundException();
+      throw new NotFoundException(`Notification id ${id} not found`);
     }
   }
 
@@ -48,8 +51,8 @@ export class NotificationsController {
       throw new BadRequestException('Invalid id');
     }
 
-    const success = this.notificationsService.deleteNotification(id);
+    const success = await this.notificationsService.deleteNotification(id);
 
-    if (!success) throw new NotFoundException(`Todo id ${id} not found`);
+    if (!success) throw new NotFoundException(`Notification id ${id} not found`);
   }
 }
