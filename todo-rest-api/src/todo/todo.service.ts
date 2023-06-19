@@ -54,11 +54,34 @@ export class TodoService {
     return this.mapTodoModelToTodoDto(await this.findTodo(id));
   }
 
-  async updateTodo(id: number, updateTodoDto: UpdateTodoDto) {
-    return `This action updates a #${id} todo`;
+  /**
+   * Updates a Todo in the db by id
+   * @param id Id of the Todo to update
+   * @param updateTodoDto Values to update the Todo with
+   * @returns Dto of the updated Todo
+   */
+  async updateTodo(
+    id: string,
+    updateTodoDto: UpdateTodoDto,
+  ): Promise<GetTodoDto> {
+    const todo = await this.findTodo(id);
+    if (updateTodoDto.title) {
+      todo.title = updateTodoDto.title;
+    }
+    if (updateTodoDto.description) {
+      todo.description = updateTodoDto.description;
+    }
+    if (updateTodoDto.isCompleate) {
+      todo.isCompleate = updateTodoDto.isCompleate;
+    }
+    if (updateTodoDto.deadline) {
+      todo.deadline = updateTodoDto.deadline;
+    }
+    todo.save();
+    return this.mapTodoModelToTodoDto(todo);
   }
 
-  remove(id: number) {
+  async deleteTodo(id: string) {
     return `This action removes a #${id} todo`;
   }
 

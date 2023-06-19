@@ -42,17 +42,20 @@ export class TodoController {
    * @returns The Todo
    */
   @Get(':id')
-  getTodo(@Param('id') id: string) {
-    return this.todoService.getTodo(id);
+  async getTodo(@Param('id') id: string) {
+    return await this.todoService.getTodo(id);
   }
 
   @Patch(':id')
-  updateTodo(@Param('id') id: string, @Body() updateTodoDto: UpdateTodoDto) {
-    return this.todoService.updateTodo(+id, updateTodoDto);
+  async updateTodo(
+    @Param('id') id: string,
+    @Body() updateTodoDto: UpdateTodoDto,
+  ) {
+    return await this.todoService.updateTodo(id, updateTodoDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.todoService.remove(+id);
+  async deleteTodo(@Param('id') id: string) {
+    return await this.todoService.deleteTodo(id);
   }
 }
