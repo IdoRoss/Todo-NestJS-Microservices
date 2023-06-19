@@ -4,6 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 import { TodoModule } from './todo/todo.module';
 import { NotificationsService } from './notifications/notifications.service';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { NotificationsService } from './notifications/notifications.service';
     }),
     MongooseModule.forRoot(process.env.MONGO_URI),
     TodoModule,
+    HttpModule,
   ],
   providers: [NotificationsService],
 })

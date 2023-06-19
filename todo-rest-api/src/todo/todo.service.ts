@@ -47,14 +47,13 @@ export class TodoService {
     };
     // Make the API call to notification microservice and update existing todo with notificationId
     console.log('Creating notification: ', notificationDto);
-    this.notificationsService
-      .createNotification(notificationDto)
-      .subscribe((res) => {
-        if (res.status === HttpStatusCode.Created) {
-          newTodo.notificationId = res.data;
-          newTodo.save();
-        }
-      });
+    const res = await this.notificationsService.createNotification(
+      notificationDto,
+    );
+    if (res.status === HttpStatusCode.Created) {
+      newTodo.notificationId = res.data;
+      newTodo.save();
+    }
 
     // Return the id of the new todo
     return result.id;
@@ -107,13 +106,13 @@ export class TodoService {
     // Handle updating notification
     // If todo wasnt compleated before and is compleated now and it has a notification
     if (!todo.isCompleate && updateTodoDto.isCompleate && todo.notificationId) {
-      this.notificationsService
-        .deleteNotification(todo.notificationId)
-        .subscribe((res) => {
-          if (res.status != HttpStatusCode.Ok) {
-            console.error('Error deleting notification: ', res);
-          }
-        });
+      const res = await this.notificationsService.deleteNotification(
+        todo.notificationId,
+      );
+
+      if (res.status != HttpStatusCode.Ok) {
+        console.error('Error deleting notification: ', res);
+      }
     } else if (updateTodoDto.deadline && todo.notificationId) {
       // If deadline was updated and it has a notification
       // Calculate notification date
@@ -129,13 +128,14 @@ export class TodoService {
       };
       // Make the API call to notification microservice to update notificationSendDate
       console.log('Creating notification: ', notificationDto);
-      this.notificationsService
-        .updateNotification(todo.notificationId, notificationDto)
-        .subscribe((res) => {
-          if (res.status !== HttpStatusCode.Ok) {
-            console.error('Error updating notification: ', res);
-          }
-        });
+      const res = await this.notificationsService.updateNotification(
+        todo.notificationId,
+        notificationDto,
+      );
+
+      if (res.status !== HttpStatusCode.Ok) {
+        console.error('Error updating notification: ', res);
+      }
     }
 
     // Update existing params
@@ -177,13 +177,12 @@ export class TodoService {
 
     // Delete the notification if exists
     if (notificationId) {
-      this.notificationsService
-        .deleteNotification(notificationId)
-        .subscribe((res) => {
-          if (res.status != HttpStatusCode.Ok) {
-            console.error('Error deleting notification: ', res);
-          }
-        });
+      const res = await this.notificationsService.deleteNotification(
+        notificationId,
+      );
+      if (res.status != HttpStatusCode.Ok) {
+        console.error('Error deleting notification: ', res);
+      }
     }
     return true;
   }

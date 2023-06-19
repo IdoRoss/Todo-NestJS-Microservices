@@ -10,24 +10,25 @@ export class NotificationsService {
   private readonly API_URL = 'http://localhost:3001/api/notifications';
   constructor(private readonly httpService: HttpService) {}
 
-  createNotification(
-    createNotificationDto: CreateNotificationDto,
-  ): Observable<AxiosResponse<string>> {
-    return this.httpService.post(this.API_URL, createNotificationDto);
+  async createNotification(createNotificationDto: CreateNotificationDto) {
+    return await this.httpService.axiosRef.post(
+      this.API_URL,
+      createNotificationDto,
+    );
   }
 
-  updateNotification(
+  async updateNotification(
     id: string,
     updateNotificationDto: UpdateNotificationDto,
-  ): Observable<AxiosResponse<boolean>> {
+  ) {
     // Make API call to create a notification
-    return this.httpService.post(
+    return await this.httpService.axiosRef.post(
       `${this.API_URL}/${id}`,
       updateNotificationDto,
     );
   }
-  deleteNotification(id: string): Observable<AxiosResponse<void>> {
+  async deleteNotification(id: string) {
     // Make API call to create a notification
-    return this.httpService.delete(`${this.API_URL}/${id}`);
+    return await this.httpService.axiosRef.delete(`${this.API_URL}/${id}`);
   }
 }
