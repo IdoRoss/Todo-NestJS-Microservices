@@ -37,7 +37,7 @@ export class TodoService {
     // Calculate notification date
     const notificationDate = result.deadline;
     notificationDate.setHours(
-      result.deadline.getHours() - this.NOTIFICATIONS_HOUR_BEFORE_DEADLINE,
+      result.deadline.getHours() + this.NOTIFICATIONS_HOUR_BEFORE_DEADLINE,
     );
 
     // Create notification dto
@@ -51,7 +51,7 @@ export class TodoService {
       notificationDto,
     );
     if (res.status === HttpStatusCode.Created) {
-      newTodo.notificationId = res.data;
+      newTodo.notificationId = res.data.id;
       newTodo.save();
     }
 
