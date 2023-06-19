@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
@@ -58,7 +58,7 @@ export class TodoService {
     const todoModel = await this.todoModel.findById(id);
 
     if (!todoModel) {
-      throw new Error('Todo not found');
+      throw new NotFoundException('Todo not found');
     }
 
     const todo: Todo = {
