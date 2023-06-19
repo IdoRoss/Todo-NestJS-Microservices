@@ -163,10 +163,28 @@ export class TodoService {
   async deleteTodo(id: string): Promise<boolean> {
     console.log('Deleting Todo with Id: ', id);
 
+    // Get the notificationId for the notification to delete
+    const todoToDelete = await this.todoModel.findById(id);
+    if (!todoToDelete) {
+      return false;
+    }
+    const notificationId = todoToDelete.notificationId;
+
+    // Delete the todo
     const result = await this.todoModel.deleteOne({ _id: id }).exec();
 
     if (result.deletedCount === 0) return false;
 
+    // Delete the notification if exists
+    if (notificationId) {
+      this.notificationsService
+        .deleteNotification(notificationId)
+        .subscribe((res) => {
+          if (res.status != HttpStatusCode.Ok) {
+            console.error('Error deleting notification: ', res);
+          }
+        });
+    }
     return true;
   }
 
