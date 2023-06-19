@@ -17,8 +17,18 @@ export class TodoService {
     return result.id;
   }
 
-  findAll() {
-    return `This action returns all todo`;
+  async getAllTodos(): Promise<Todo[]> {
+    const todos = await this.todoModel.find().exec();
+    console.log('Fetching all Todos: ', todos);
+    return todos.map(
+      (todo) =>
+        ({
+          id: todo.id,
+          title: todo.title,
+          description: todo.description,
+          isCompleate: todo.isCompleate,
+        } as Todo),
+    );
   }
 
   findOne(id: number) {

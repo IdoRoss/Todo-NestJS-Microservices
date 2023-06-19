@@ -22,8 +22,9 @@ export class TodoController {
   }
 
   @Get()
-  findAll() {
-    return this.todoService.findAll();
+  async getAllTodos() {
+    const allTodos = await this.todoService.getAllTodos();
+    return allTodos;
   }
 
   @Get(':id')
