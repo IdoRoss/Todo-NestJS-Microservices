@@ -6,12 +6,14 @@ import { CreateNotificationDto } from './dto/create-notification.dto';
 import { UpdateNotificationDto } from './dto/update-notification.dto';
 
 import { Notification } from './entities/notification.entity';
+import { TodosService } from 'src/todos/todos.service';
 
 @Injectable()
 export class NotificationsService {
   constructor(
     @InjectModel('Notifications')
     private readonly notificationModel: Model<Notification>,
+    private readonly todosService: TodosService,
   ) {}
 
   async create(createNotificationDto: CreateNotificationDto): Promise<string> {
