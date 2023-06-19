@@ -13,6 +13,7 @@ import {
 import { NotificationsService } from './notifications.service';
 import { CreateNotificationDto } from './dto/create-notification.dto';
 import { UpdateNotificationDto } from './dto/update-notification.dto';
+import * as mongoose from 'mongoose';
 
 @Controller('notifications')
 export class NotificationsController {
@@ -28,6 +29,10 @@ export class NotificationsController {
     @Param('id') id: string,
     @Body() updateNotificationDto: UpdateNotificationDto,
   ) {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      throw new BadRequestException('Invalid id');
+    }
+
     const success = await this.notificationsService.updateNotification(
       id,
       updateNotificationDto,
@@ -39,6 +44,12 @@ export class NotificationsController {
 
   @Delete(':id')
   async deleteNotification(@Param('id') id: string) {
-    return await this.notificationsService.deleteNotification(id);
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      throw new BadRequestException('Invalid id');
+    }
+
+    const success = this.notificationsService.deleteNotification(id);
+
+    if (!success) throw new NotFoundException(`Todo id ${id} not found`);
   }
 }

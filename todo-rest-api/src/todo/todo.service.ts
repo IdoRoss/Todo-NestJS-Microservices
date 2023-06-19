@@ -102,7 +102,7 @@ export class TodoService {
 
     const result = await this.todoModel.deleteOne({ _id: id }).exec();
 
-    if (!result) return null;
+    if (result.deletedCount === 0) return false;
 
     return true;
   }

@@ -41,7 +41,11 @@ export class NotificationsService {
     return true;
   }
 
-  async deleteNotification(id: string) {
-    return `This action removes a #${id} notification`;
+  async deleteNotification(id: string): Promise<boolean> {
+    const result = await this.notificationModel.deleteOne({ _id: id }).exec();
+
+    if (result.deletedCount === 0) return false;
+
+    return true;
   }
 }
