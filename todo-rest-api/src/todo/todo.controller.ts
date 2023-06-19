@@ -6,10 +6,13 @@ import {
   Patch,
   Param,
   Delete,
+  NotFoundException,
+  BadRequestException,
 } from '@nestjs/common';
 import { TodoService } from './todo.service';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
+import * as mongoose from 'mongoose';
 
 @Controller('api/todo')
 export class TodoController {
@@ -43,19 +46,51 @@ export class TodoController {
    */
   @Get(':id')
   async getTodo(@Param('id') id: string) {
-    return await this.todoService.getTodo(id);
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      throw new BadRequestException('Invalid id');
+    }
+
+    const todo = await this.todoService.getTodo(id);
+
+    if (!todo) throw new NotFoundException(`Todo id ${id} not found`);
+
+    return todo;
   }
 
+  /**
+   * Updates a Todo in the db by id
+   * @param id Id of the Todo to update
+   * @param updateTodoDto Values to update the Todo with
+   * @returns Dto of the updated Todo
+   */
   @Patch(':id')
   async updateTodo(
     @Param('id') id: string,
     @Body() updateTodoDto: UpdateTodoDto,
   ) {
-    return await this.todoService.updateTodo(id, updateTodoDto);
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      throw new BadRequestException('Invalid id');
+    }
+
+    const todo = await this.todoService.updateTodo(id, updateTodoDto);
+
+    if (!todo) throw new NotFoundException(`Todo id ${id} not found`);
+
+    return todo;
   }
 
+  /**
+   * Deletes a Todo from the db by id
+   * @param id Id of the Todo to delete
+   */
   @Delete(':id')
   async deleteTodo(@Param('id') id: string) {
-    return await this.todoService.deleteTodo(id);
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      throw new BadRequestException('Invalid id');
+    }
+
+    const success = await this.todoService.deleteTodo(id);
+
+    if (!success) throw new NotFoundException(`Todo id ${id} not found`);
   }
 }

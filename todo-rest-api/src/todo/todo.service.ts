@@ -44,13 +44,18 @@ export class TodoService {
     // Map the todos to a Todo object
     return todos.map((todo) => this.mapTodoModelToTodoDto(todo));
   }
+
   /**
    * Gets a Todo from the db by id
    * @param id Id of the Todo to get
    * @returns The Todo
    */
   async getTodo(id: string): Promise<GetTodoDto> {
-    return this.mapTodoModelToTodoDto(await this.findTodo(id));
+    const todo = await this.todoModel.findById(id);
+    if (!todo) {
+      return null;
+    }
+    return this.mapTodoModelToTodoDto(todo);
   }
 
   /**
@@ -64,7 +69,11 @@ export class TodoService {
     updateTodoDto: UpdateTodoDto,
   ): Promise<GetTodoDto> {
     // Get the todo
-    const todo = await this.findTodo(id);
+    const todo = await this.todoModel.findById(id);
+
+    if (!todo) {
+      return null;
+    }
 
     // Update existing params
     if (updateTodoDto.title) {
@@ -88,41 +97,14 @@ export class TodoService {
    * Deletes a Todo from the db by id
    * @param id Id of the Todo to delete
    */
-  async deleteTodo(id: string) {
+  async deleteTodo(id: string): Promise<boolean> {
     console.log('Deleting Todo with Id: ', id);
 
     const result = await this.todoModel.deleteOne({ _id: id }).exec();
 
-    // Error handling
-    if (result.deletedCount === 0) {
-      const errorMessage = `Todo with Id: ${id} not found`;
-      console.error(`Deleting Todo, ${errorMessage}`);
-      // Throwing NotFoundError will trigger the global exception handler which will return 404 status code
-      throw new NotFoundException(errorMessage);
-    }
-  }
+    if (!result) return null;
 
-  /**
-   * Helper method to find a Todo Mongose Document by id
-   * @param id Id of the Todo to get
-   * @returns The Todo Mongose Document
-   */
-  private async findTodo(id: string): Promise<Todo> {
-    // Find todo
-    console.log('Fetching Todo with Id: ', id);
-    try {
-      const todo = await this.todoModel.findById(id);
-
-      if (!todo) {
-        // Throwing NotFoundError will trigger the global exception handler which will return 404 status code
-        throw new NotFoundException(`Todo with Id: ${id} not found`);
-      }
-
-      return todo;
-    } catch (error) {
-      console.error('Fetching Todo with Id: ', id, error);
-      throw error;
-    }
+    return true;
   }
 
   /**
