@@ -10,6 +10,7 @@ import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
 import { Todo } from './entities/todo.entity';
 import { NotFoundError } from 'rxjs';
+import { GetTodoDto } from './dto/get-todo.dto';
 
 @Injectable()
 export class TodoService {
@@ -35,45 +36,46 @@ export class TodoService {
    * Gets all Todos from the db
    * @returns A array of all Todos
    */
-  async getAllTodos(): Promise<Todo[]> {
+  async getAllTodos(): Promise<GetTodoDto[]> {
     // Find all todos
     const todos = await this.todoModel.find().exec();
 
     console.log('Fetching all Todos: ', todos);
 
     // Map the todos to a Todo object
-    return todos.map(
-      (todo) =>
-        ({
-          id: todo.id,
-          title: todo.title,
-          description: todo.description,
-          isCompleate: todo.isCompleate,
-        } as Todo),
-    );
+    return todos.map((todo) => this.mapTodoModelToTodoDto(todo));
   }
   /**
    * Gets a Todo from the db by id
    * @param id Id of the Todo to get
    * @returns The Todo
    */
-  async getTodo(id: string): Promise<Todo> {
+  async getTodo(id: string): Promise<GetTodoDto> {
+    return this.mapTodoModelToTodoDto(await this.findTodo(id));
+  }
+
+  async updateTodo(id: number, updateTodoDto: UpdateTodoDto) {
+    return `This action updates a #${id} todo`;
+  }
+
+  remove(id: number) {
+    return `This action removes a #${id} todo`;
+  }
+
+  /**
+   * Helper method to find a Todo Mongose Document by id
+   * @param id Id of the Todo to get
+   * @returns The Todo Mongose Document
+   */
+  private async findTodo(id: string): Promise<Todo> {
     // Find todo
     console.log('Fetching Todo with Id: ', id);
     try {
-      const todoModel = await this.todoModel.findById(id);
+      const todo = await this.todoModel.findById(id);
 
-      if (!todoModel) {
+      if (!todo) {
         throw new NotFoundException();
       }
-
-      const todo: Todo = {
-        id: todoModel.id,
-        title: todoModel.title,
-        description: todoModel.description,
-        isCompleate: todoModel.isCompleate,
-        deadline: todoModel.deadline,
-      };
 
       return todo;
     } catch (error) {
@@ -82,11 +84,19 @@ export class TodoService {
     }
   }
 
-  update(id: number, updateTodoDto: UpdateTodoDto) {
-    return `This action updates a #${id} todo`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} todo`;
+  /**
+   * Helper function to map a Todo Mongose Document to a Todo Data Transfare Object
+   * @param todo Todo Mongose Document
+   * @returns Todo Data Transfare Object
+   */
+  private mapTodoModelToTodoDto(todo: Todo): GetTodoDto {
+    const dto: GetTodoDto = {
+      id: todo.id,
+      title: todo.title,
+      description: todo.description,
+      isCompleate: todo.isCompleate,
+      deadline: todo.deadline,
+    };
+    return dto;
   }
 }

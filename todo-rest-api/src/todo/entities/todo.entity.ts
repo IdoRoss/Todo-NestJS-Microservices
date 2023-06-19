@@ -7,7 +7,7 @@ export const TodoSchema = new mongoose.Schema({
   isCompleate: { type: String, required: true },
 });
 
-export interface Todo {
+export interface Todo extends mongoose.Document {
   id: string;
   title: string;
   description: string;
