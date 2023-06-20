@@ -19,14 +19,26 @@ import * as mongoose from 'mongoose';
 export class NotificationsController {
   constructor(private readonly notificationsService: NotificationsService) {}
 
+  /**
+   * Create a new notification
+   * @param createNotificationDto NotificationDto
+   * @returns id of new notification
+   */
   @Post()
   async create(@Body() createNotificationDto: CreateNotificationDto) {
     const generatedId = await this.notificationsService.create(
       createNotificationDto,
     );
+    // Returns 201 by default
     return { id: generatedId };
   }
 
+  /**
+   * Updates a notification
+   * @param id id of notification to update
+   * @param updateNotificationDto NotificationDto
+   * @returns success of update
+   */
   @Patch(':id')
   async UpdateNotification(
     @Param('id') id: string,
@@ -45,6 +57,11 @@ export class NotificationsController {
     }
   }
 
+  /**
+   * Deletes a notification
+   * @param id id of notification to delete
+   * @returns success of delete
+   */
   @Delete(':id')
   async deleteNotification(@Param('id') id: string) {
     if (!mongoose.Types.ObjectId.isValid(id)) {

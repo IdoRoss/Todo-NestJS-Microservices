@@ -2,6 +2,13 @@
 By Ido Rosenberger <br>
 ido.ross98@gmail.com <br>
 Feel free to contact me :)
+# Services
+## Todo REST API
+This is a Microservice to manage the CRUD operations for Todo items with support for user notifications.
+## Notifications service
+This is a Microservice to manage different types of notifications to send to the user.<br>
+Currently only supporting Todo notifications but this service is highly scalable to support new types of notifications i.e. messages.
+
 # How to run
 1. Need to add .env file to both Microservices root (Which I will provide)
 1. Open terminal

@@ -26,6 +26,8 @@ export class TodoController {
   @Post()
   async createTodo(@Body() createTodoDto: CreateTodoDto) {
     const generatedId = await this.todoService.createTodo(createTodoDto);
+
+    // Returns 201 by default
     return { id: generatedId };
   }
 
@@ -46,12 +48,14 @@ export class TodoController {
    */
   @Get(':id')
   async getTodo(@Param('id') id: string) {
+    // Validate id
     if (!mongoose.Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid id');
     }
 
     const todo = await this.todoService.getTodo(id);
 
+    // Return 404 if not found
     if (!todo) throw new NotFoundException(`Todo id ${id} not found`);
 
     return todo;
@@ -68,12 +72,14 @@ export class TodoController {
     @Param('id') id: string,
     @Body() updateTodoDto: UpdateTodoDto,
   ) {
+    // Validate id
     if (!mongoose.Types.ObjectId.isValid(id)) {
       throw new BadRequestException('Invalid id');
     }
 
     const todo = await this.todoService.updateTodo(id, updateTodoDto);
 
+    // Return 404 if not found
     if (!todo) throw new NotFoundException(`Todo id ${id} not found`);
 
     return todo;
@@ -91,6 +97,7 @@ export class TodoController {
 
     const success = await this.todoService.deleteTodo(id);
 
+    // Return 404 if not found
     if (!success) throw new NotFoundException(`Todo id ${id} not found`);
   }
 }

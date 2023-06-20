@@ -16,11 +16,11 @@ export class NotificationsService {
     id: string,
     updateNotificationDto: UpdateNotificationDto,
   ) {
-    // Make API call to create a notification
+    // Make API call to update a notification
     return await axios.post(`${this.API_URL}/${id}`, updateNotificationDto);
   }
   async deleteNotification(id: string) {
-    // Make API call to create a notification
+    // Make API call to delete a notification
     return await axios.delete(`${this.API_URL}/${id}`);
   }
 }
