@@ -97,10 +97,12 @@ export class NotificationsService {
       .exec()
       .then((notifications) => {
         notifications.forEach(async (notification) => {
-          // In the future, we can sort for different notification type (i.e. Todo, Messages etc),
-          // get the relevent notification obj via the relevent service and send a custom notification
-          const todo = await this.todosService.getTodo(notification.itemId);
-          this.sendNotification(todo);
+          // Classify the notification type
+          // In case of 'todo' call the todoService to get the todo from the microservice and send its notification
+          if (notification.itemType == 'todo') {
+            const todo = await this.todosService.getTodo(notification.itemId);
+            this.sendNotification(todo);
+          }
         });
       });
   }

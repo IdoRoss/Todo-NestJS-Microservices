@@ -44,6 +44,7 @@ export class TodoService {
     const notificationDto: CreateNotificationDto = {
       notificationSendDate: notificationDate,
       itemId: result.id,
+      itemType: 'todo',
     };
     // Make the API call to notification microservice and update existing todo with notificationId
     console.log('Creating notification: ', notificationDto);
