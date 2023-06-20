@@ -102,7 +102,13 @@ export class NotificationsService {
           if (notification.itemType == 'todo') {
             const todo = await this.todosService.getTodo(notification.itemId);
             this.sendNotification(todo);
+          } else {
+            console.error(
+              `notification: ${notification.id} has invalid type ${notification.itemType}.`,
+            );
           }
+          // Delete the notification after sending it via this service's deleteNotification
+          await this.deleteNotification(notification.id);
         });
       });
   }
