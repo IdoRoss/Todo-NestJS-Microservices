@@ -3,4 +3,5 @@ export class CreateTodoDto {
   description: string;
   deadline: Date;
   isCompleate: boolean;
+  notifyHoursBeforeDeadline?: number;
 }

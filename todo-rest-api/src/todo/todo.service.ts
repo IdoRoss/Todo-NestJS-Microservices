@@ -30,16 +30,20 @@ export class TodoService {
     // Create the new todo model
     const newTodo = new this.todoModel(createTodoDto);
 
+    // If it wasnt sent then set to a default value
+    createTodoDto.notifyHoursBeforeDeadline ??=
+      this.NOTIFICATIONS_HOUR_BEFORE_DEADLINE;
+
     // Save the new todo model
     const result = await newTodo.save();
 
     console.log('Created Todo: ', result);
 
     // Create notification for the new todo
-    // Calculate notification date (NOTIFICATIONS_HOUR_BEFORE_DEADLINE hours before deadline)
+    // Calculate notification date (notifyHoursBeforeDeadline hours before deadline)
     const notificationDate = result.deadline;
     notificationDate.setHours(
-      result.deadline.getHours() - this.NOTIFICATIONS_HOUR_BEFORE_DEADLINE,
+      result.deadline.getHours() - createTodoDto.notifyHoursBeforeDeadline,
     );
 
     // Create notification dto
@@ -110,9 +114,13 @@ export class TodoService {
     // Handle updating notification
     // If todo wasnt compleated before and is compleated now and it has a notification
     if (!todo.isCompleate && updateTodoDto.isCompleate && todo.notificationId) {
+      // Delete the notification via its service
       const res = await this.notificationsService.deleteNotification(
         todo.notificationId,
       );
+
+      // Remove the ref to the notification in the todo
+      todo.notificationId = null;
 
       if (res.status != HttpStatusCode.Ok) {
         console.error('Error deleting notification: ', res);
@@ -122,8 +130,7 @@ export class TodoService {
       // Calculate notification date
       const notificationDate = updateTodoDto.deadline;
       notificationDate.setHours(
-        updateTodoDto.deadline.getHours() -
-          this.NOTIFICATIONS_HOUR_BEFORE_DEADLINE,
+        updateTodoDto.deadline.getHours() - todo.notifyHoursBeforeDeadline,
       );
 
       // Update notification dto
@@ -203,6 +210,7 @@ export class TodoService {
       description: todo.description,
       isCompleate: todo.isCompleate,
       deadline: todo.deadline,
+      notifyHoursBeforeDeadline: todo.notifyHoursBeforeDeadline,
     };
     return dto;
   }

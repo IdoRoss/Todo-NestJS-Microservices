@@ -8,6 +8,9 @@ This is a Microservice to manage the CRUD operations for Todo items with support
 ## Notifications service
 This is a Microservice to manage different types of notifications to send to the user.<br>
 Currently only supporting Todo notifications but this service is highly scalable to support new types of notifications i.e. messages.
+## Notes
+The Todo Microservice will manage its own notification whilst the Notifications service will only create update delete and send the notifications to the user.<br>
+This is so the Notifications service will be genaric and highly scalable so it can support new types of notifications.
 
 # How to run
 1. Add `.env` file to both Microservices root:<br>
