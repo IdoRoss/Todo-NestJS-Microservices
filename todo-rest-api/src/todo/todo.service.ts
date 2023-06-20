@@ -13,7 +13,9 @@ import { HttpStatusCode } from 'axios';
 
 @Injectable()
 export class TodoService {
+  // Constant to send notification 12 hours before deadline
   private readonly NOTIFICATIONS_HOUR_BEFORE_DEADLINE = 12;
+
   constructor(
     @InjectModel('Todo') private readonly todoModel: Model<Todo>,
     private readonly notificationsService: NotificationsService,
@@ -34,10 +36,10 @@ export class TodoService {
     console.log('Created Todo: ', result);
 
     // Create notification for the new todo
-    // Calculate notification date
+    // Calculate notification date (NOTIFICATIONS_HOUR_BEFORE_DEADLINE hours before deadline)
     const notificationDate = result.deadline;
     notificationDate.setHours(
-      result.deadline.getHours() + this.NOTIFICATIONS_HOUR_BEFORE_DEADLINE,
+      result.deadline.getHours() - this.NOTIFICATIONS_HOUR_BEFORE_DEADLINE,
     );
 
     // Create notification dto
@@ -46,6 +48,7 @@ export class TodoService {
       itemId: result.id,
       itemType: 'todo',
     };
+
     // Make the API call to notification microservice and update existing todo with notificationId
     console.log('Creating notification: ', notificationDto);
     const res = await this.notificationsService.createNotification(

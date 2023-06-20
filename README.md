@@ -26,4 +26,5 @@ MONGO_URI=YOUR_ATLAS_CONNECTION_STRING
 
 Now both Microservices are up and running.
 <br>
-You can use attached postman collections to use these apis.
+You can use attached postman collection to use these apis.<br>
+Creating a todo via the postman collection will set its deadline so it will be notified by the notifications microservice
