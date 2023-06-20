@@ -29,7 +29,7 @@
 					},
 					"response": [
 						{
-							"name": "GetAll",
+							"name": "GetAll 200",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
@@ -60,15 +60,15 @@
 								},
 								{
 									"key": "Content-Length",
-									"value": "569"
+									"value": "758"
 								},
 								{
 									"key": "ETag",
-									"value": "W/\"239-w7W0XyHatr2O4FBH96QQ6lbc4dE\""
+									"value": "W/\"2f6-w6eSPYH3gkLlTFE7lFSDuX6U+8U\""
 								},
 								{
 									"key": "Date",
-									"value": "Mon, 19 Jun 2023 13:13:49 GMT"
+									"value": "Tue, 20 Jun 2023 15:04:32 GMT"
 								},
 								{
 									"key": "Connection",
@@ -80,7 +80,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "[\n    {\n        \"id\": \"649012ab251f3fee0ff37722\",\n        \"title\": \"Play piano\",\n        \"description\": \"For school\",\n        \"isCompleate\": \"false\",\n        \"deadline\": \"2024-10-09T21:00:00.000Z\"\n    },\n    {\n        \"id\": \"64901500650dc80be18f8ebf\",\n        \"title\": \"Play piano\",\n        \"description\": \"For school\",\n        \"isCompleate\": \"false\",\n        \"deadline\": \"2024-10-09T21:00:00.000Z\"\n    },\n    {\n        \"id\": \"649018825548b8338e8ea33d\",\n        \"title\": \"Play piano\",\n        \"description\": \"For school\",\n        \"isCompleate\": \"false\",\n        \"deadline\": \"2024-10-09T21:00:00.000Z\"\n    },\n    {\n        \"id\": \"64901898083578fdd86ee5cf\",\n        \"title\": \"Play piano\",\n        \"description\": \"For school\",\n        \"isCompleate\": \"false\",\n        \"deadline\": \"2024-10-09T21:00:00.000Z\"\n    }\n]"
+							"body": "[\n    {\n        \"id\": \"6491bf3b13d009992eb50d5a\",\n        \"title\": \"Invite Ido to interview\",\n        \"description\": \"For the Backend Developer role.\",\n        \"isCompleate\": \"false\",\n        \"deadline\": \"2023-06-21T03:02:15.570Z\",\n        \"notifyHoursBeforeDeadline\": 12\n    },\n    {\n        \"id\": \"6491bf6a13d009992eb50d5e\",\n        \"title\": \"Piano lesson\",\n        \"description\": \"For school.\",\n        \"isCompleate\": \"false\",\n        \"deadline\": \"2023-06-21T03:03:02.641Z\",\n        \"notifyHoursBeforeDeadline\": 12\n    },\n    {\n        \"id\": \"6491bfcb13d009992eb50d62\",\n        \"title\": \"Stop global warming\",\n        \"description\": \"I'm a winter kind of person.\",\n        \"isCompleate\": \"false\",\n        \"deadline\": \"2023-06-21T03:04:39.206Z\",\n        \"notifyHoursBeforeDeadline\": 12\n    },\n    {\n        \"id\": \"6491bffc13d009992eb50d66\",\n        \"title\": \"Buy food\",\n        \"description\": \"Pizza is nice\",\n        \"isCompleate\": \"false\",\n        \"deadline\": \"2023-06-21T03:05:28.708Z\",\n        \"notifyHoursBeforeDeadline\": 12\n    }\n]"
 						}
 					]
 				},
@@ -90,7 +90,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/todo/649012ab251f3fee0ff37722",
+							"raw": "http://localhost:3000/api/todo/6491bf3b13d009992eb50d5a",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -99,7 +99,7 @@
 							"path": [
 								"api",
 								"todo",
-								"649012ab251f3fee0ff37722"
+								"6491bf3b13d009992eb50d5a"
 							]
 						}
 					},
@@ -160,61 +160,6 @@
 							"body": "{\n    \"message\": \"Todo id 6490125d97a18cf88b1d7ca6 not found\",\n    \"error\": \"Not Found\",\n    \"statusCode\": 404\n}"
 						},
 						{
-							"name": "Get",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "http://localhost:3000/api/todo/649012ab251f3fee0ff37722",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "3000",
-									"path": [
-										"api",
-										"todo",
-										"649012ab251f3fee0ff37722"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "141"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"8d-LaWdx9CchNf/DSfHDetCvp4rDqM\""
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 19 Jun 2023 13:14:04 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"id\": \"649012ab251f3fee0ff37722\",\n    \"title\": \"Play piano\",\n    \"description\": \"For school\",\n    \"isCompleate\": \"false\",\n    \"deadline\": \"2024-10-09T21:00:00.000Z\"\n}"
-						},
-						{
 							"name": "Get 400",
 							"originalRequest": {
 								"method": "GET",
@@ -268,6 +213,61 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"message\": \"Invalid id\",\n    \"error\": \"Bad Request\",\n    \"statusCode\": 400\n}"
+						},
+						{
+							"name": "Get 200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/todo/6491bf3b13d009992eb50d5a",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"todo",
+										"6491bf3b13d009992eb50d5a"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "206"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"ce-1636Y6eMpWivDRRAEuFMh8ZI32Q\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 20 Jun 2023 15:05:10 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"6491bf3b13d009992eb50d5a\",\n    \"title\": \"Invite Ido to interview\",\n    \"description\": \"For the Backend Developer role.\",\n    \"isCompleate\": \"false\",\n    \"deadline\": \"2023-06-21T03:02:15.570Z\",\n    \"notifyHoursBeforeDeadline\": 12\n}"
 						}
 					]
 				},
@@ -281,7 +281,7 @@
 									"// Parse the existing request body JSON\r",
 									"const requestBody = JSON.parse(pm.request.body.raw);\r",
 									"\r",
-									"if(requestBody.deadline===\"This is a date that will be overriden by `Pre-request Script` to 12 hours ago for notifications unless you change this text.\")\r",
+									"if(requestBody.deadline===\"This is a date that will be overriden by `Pre-request Script` to 12 hours in the future for notifications unless you change this text.\")\r",
 									"{// Set the deadline for 12 houres and 1 minutes\r",
 									"const deadline = new Date(new Date().getTime() + (12 * 60 * 60 * 1000)+(60*1000));\r",
 									"\r",
@@ -301,7 +301,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"title\": \"Play piano\",\r\n  \"description\": \"For school\",\r\n  \"deadline\": \"This is a date that will be overriden by `Pre-request Script` to 12 hours ago for notifications unless you change this text.\",\r\n  \"isCompleate\": false\r\n}",
+							"raw": "{\r\n  \"title\": \"Buy food\",\r\n  \"description\": \"Pizza is nice\",\r\n  \"deadline\": \"This is a date that will be overriden by `Pre-request Script` to 12 hours in the future for notifications unless you change this text.\",\r\n  \"isCompleate\": false,\r\n  \"notifyHoursBeforeDeadline\": 12\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -323,7 +323,7 @@
 					},
 					"response": [
 						{
-							"name": "Create",
+							"name": "Create 201",
 							"originalRequest": {
 								"method": "POST",
 								"header": [],
@@ -394,7 +394,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"title\": \"Play Guitar\"\r\n}",
+							"raw": "{\r\n  \"isCompleate\": true\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -402,7 +402,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/todo/64901500650dc80be18f8ebf",
+							"raw": "http://localhost:3000/api/todo/6491bf3b13d009992eb50d5a",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -411,7 +411,7 @@
 							"path": [
 								"api",
 								"todo",
-								"64901500650dc80be18f8ebf"
+								"6491bf3b13d009992eb50d5a"
 							]
 						}
 					},
@@ -481,13 +481,13 @@
 							"body": "{\n    \"message\": \"Todo id 6490125d97a18cf88b1d7ca7 not found\",\n    \"error\": \"Not Found\",\n    \"statusCode\": 404\n}"
 						},
 						{
-							"name": "Update",
+							"name": "Update 200",
 							"originalRequest": {
 								"method": "PATCH",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"title\": \"Play Guitar\"\r\n}",
+									"raw": "{\r\n  \"isCompleate\": true\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -495,7 +495,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3000/api/todo/64901500650dc80be18f8ebf",
+									"raw": "http://localhost:3000/api/todo/6491bf3b13d009992eb50d5a",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -504,7 +504,7 @@
 									"path": [
 										"api",
 										"todo",
-										"64901500650dc80be18f8ebf"
+										"6491bf3b13d009992eb50d5a"
 									]
 								}
 							},
@@ -522,15 +522,15 @@
 								},
 								{
 									"key": "Content-Length",
-									"value": "142"
+									"value": "205"
 								},
 								{
 									"key": "ETag",
-									"value": "W/\"8e-wOy7KJ3hrfTbI1wDyqT3Vs6fgnU\""
+									"value": "W/\"cd-BMZmpjp7lRiwRePl6La0rEzGIzc\""
 								},
 								{
 									"key": "Date",
-									"value": "Mon, 19 Jun 2023 16:30:14 GMT"
+									"value": "Tue, 20 Jun 2023 15:06:24 GMT"
 								},
 								{
 									"key": "Connection",
@@ -542,7 +542,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"id\": \"64901500650dc80be18f8ebf\",\n    \"title\": \"Play Guitar\",\n    \"description\": \"For school\",\n    \"isCompleate\": \"false\",\n    \"deadline\": \"2024-10-09T21:00:00.000Z\"\n}"
+							"body": "{\n    \"id\": \"6491bf3b13d009992eb50d5a\",\n    \"title\": \"Invite Ido to interview\",\n    \"description\": \"For the Backend Developer role.\",\n    \"isCompleate\": \"true\",\n    \"deadline\": \"2023-06-21T03:02:15.570Z\",\n    \"notifyHoursBeforeDeadline\": 12\n}"
 						}
 					]
 				},
@@ -635,7 +635,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"notificationSendDate\": \"10-10-2024\",\r\n  \"itemId\": \"649012ab251f3fee0ff37722\"\r\n}",
+							"raw": "{\r\n  \"notificationSendDate\": \"2024-09-09T21:00:00.000Z\",\r\n  \"itemType\": \"todo\",\r\n  \"itemId\": \"649012ab251f3fee0ff37722\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -657,13 +657,13 @@
 					},
 					"response": [
 						{
-							"name": "Create",
+							"name": "Create 201",
 							"originalRequest": {
 								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"notificationSendDate\": \"10-10-2024\",\r\n  \"itemId\": \"649012ab251f3fee0ff37722\"\r\n}",
+									"raw": "{\r\n  \"notificationSendDate\": \"10-10-2024\",\r\n  \"itemType\": \"todo\",\r\n  \"itemId\": \"649012ab251f3fee0ff37722\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -701,11 +701,11 @@
 								},
 								{
 									"key": "ETag",
-									"value": "W/\"21-IkcEiXTKBUruorluTAXm6UrABHI\""
+									"value": "W/\"21-YDwAHpkHSg1h04Mn5HDljVMAffs\""
 								},
 								{
 									"key": "Date",
-									"value": "Mon, 19 Jun 2023 13:16:22 GMT"
+									"value": "Tue, 20 Jun 2023 15:07:41 GMT"
 								},
 								{
 									"key": "Connection",
@@ -717,7 +717,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"id\": \"6490552671c24b8c99035c13\"\n}"
+							"body": "{\n    \"id\": \"6491c0bdd95640ce3e2f7fee\"\n}"
 						}
 					]
 				},
@@ -815,7 +815,7 @@
 							"body": "{\n    \"message\": \"Not Found\",\n    \"statusCode\": 404\n}"
 						},
 						{
-							"name": "Update Ok",
+							"name": "Update 200",
 							"originalRequest": {
 								"method": "PATCH",
 								"header": [],
